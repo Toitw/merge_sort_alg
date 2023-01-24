@@ -1,32 +1,27 @@
-def merge(arr1, arr2, arr)
-    until arr1.empty? && arr2.empty?
-        if arr1.empty?
-            arr << arr2.shift(arr2.length)
-        elsif arr2.empty?
-            arr << arr1.shift(arr1.length)
-        elsif arr1[0] < arr2[0]
-            arr << arr1.shift
+def merge(arr1, arr2)
+    arr = []
+    while !arr1.empty? && !arr2.empty? do
+        if arr1[0] < arr2[0]
+            arr.push(arr1.shift)
         elsif arr2[0] < arr1[0]
-            arr << arr2.shift
+            arr.push(arr2.shift)
         end
-        arr
     end
-    arr
+    arr.concat(arr1).concat(arr2)
 end
 
 def merge_sort(arr)
     n = arr.length
-    aux_arr = []
+
     if n < 2
-        return
+        arr
     else
-        arr1 = arr.slice(0, n/2)
-        arr2 = arr.slice((n/2), n)
-        merge_sort(arr1)
-        merge_sort(arr2)
-        merge(arr1, arr2, aux_arr)
+        arr1 = merge_sort(arr.slice(0, n/2))
+        arr2 = merge_sort(arr.slice((n/2), n))
+
+        merge(arr1, arr2)
     end
 end
 
-arr = [2, 1, 4, 3]
+arr = [2, 1, 4, 3, 6, 5]
 p merge_sort(arr)
